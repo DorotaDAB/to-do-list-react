@@ -1,13 +1,14 @@
 import React from 'react';
 import './HomePage.css';
-import Header from '../Header/Header';
 import TasksForm from '../TasksForm/TasksForm';
 
 function HomePage() {
   return (
-    <div className="home-page--container">
-      <Header />
-      <TasksForm />
+    <div className="card">
+      <h5 className="card-header">Todo List</h5>
+      <div className="card-body">
+        <TasksForm />
+      </div>
     </div>
   );
 }
