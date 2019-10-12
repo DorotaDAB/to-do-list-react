@@ -13,7 +13,7 @@ class Task extends React.Component {
 	render() {
 		return (
 			<div className="form-check">
-				<input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+				<input className="form-check-input" type="checkbox" value="" />
 				<label className="form-check-label">
 					{this.state.name}
 				</label>
