@@ -10,7 +10,6 @@ class TasksForm extends React.Component {
 		this.state = {
 			tasks: [],
 			inputValue: "",
-			creationDate: ""
 		}
 		
 		this.addTask = this.addTask.bind(this);
@@ -23,11 +22,10 @@ class TasksForm extends React.Component {
 	addTask() {
 		if (this.state.inputValue) {
 			this.setState({
-				tasks: [ ...this.state.tasks, this.state.inputValue],
+				tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate()}],
 			});
 		}
 		this.setState({inputValue: ""});
-		this.getFormattedDate();
 	}	
 
 	addTaskOnEnter(ev){
@@ -49,10 +47,8 @@ class TasksForm extends React.Component {
 			if (minute < 10) {minute = "0" + minute};
 		
 		const creationDate = `dodano: ${day}-${month}-${year}, ${hour}:${minute}`
-
-		this.setState({
-			creationDate: creationDate,
-		});
+		
+		return creationDate;
   }
 
 	changeInputValue(ev) {
@@ -67,7 +63,7 @@ class TasksForm extends React.Component {
 						{this.state.tasks.map( (task, index) => {
 									return (
 										<li className="list-group-item" key={index}> 
-											<Task name={task} creationDate={this.state.creationDate}/> 
+											<Task name={task.name} creationDate={task.creationDate}/> 
 										</li>
 									)
 								})
