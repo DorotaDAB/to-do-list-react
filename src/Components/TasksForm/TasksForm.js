@@ -1,6 +1,7 @@
 import React from 'react';
 import './TasksForm.css';
 import Task from '../Task/Task';
+import lang from '../../assets/lang/lang.json';
 
 class TasksForm extends React.Component {
 	constructor(props) {
@@ -85,7 +86,7 @@ class TasksForm extends React.Component {
 						type="text" 
 						className="form-control" 
 						maxLength="100" 
-						placeholder="Wprowadź zadanie" 
+						placeholder={lang.inputTask} 
 						value={this.state.inputValue} 
 						onChange={this.changeInputValue}
 						onKeyUp={this.addTaskOnEnter}
