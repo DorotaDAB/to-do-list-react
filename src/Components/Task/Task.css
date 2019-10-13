@@ -1,0 +1,8 @@
+.form-check.task-done {
+  color: #00b300;
+}
+
+.form-check p {
+  margin-bottom: 0;
+  font-size: small;
+}

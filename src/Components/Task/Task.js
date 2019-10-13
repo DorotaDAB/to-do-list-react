@@ -7,46 +7,35 @@ class Task extends React.Component {
 
 		this.state = {
 			name: this.props.name,
+			creationDate: this.props.creationDate,
 			isDone: false 
 		}
 		
 		this.toggleDoneStatus = this.toggleDoneStatus.bind(this);
-		this.displayLabel = this.displayLabel.bind(this);
 	}
 
 	toggleDoneStatus() {
 		this.setState({isDone: !this.state.isDone});
 	}
 
-	displayLabel() {
-		if (this.state.isDone) {
-			return (	
-				<label className="form-check-label" style={{color:"#00b300"}}>
-					{this.state.name}
-				</label>
-			)
-		} 
-		else {
-			return (
-				<label className="form-check-label">
-					{this.state.name}
-				</label>
-			)
-		}
-	}
-
 	render() {
+		let additionalClassName = this.state.isDone ? "task-done" : ""
+		
 		return (
-			<div className="form-check">
+			<div className={"form-check " + additionalClassName}>
+				<p>{this.state.creationDate}</p>
 				<input 
 					className="form-check-input" 
 					type="checkbox" 
 					defaultChecked={this.state.isDone}
 					onClick={this.toggleDoneStatus} 
 				/>
-				{this.displayLabel()}
+				<label className="form-check-label" >
+					{this.state.name}
+				</label>
 			</div>
-		)}
+		)
+	}
 };
 
 export default Task;

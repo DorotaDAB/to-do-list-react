@@ -8,13 +8,15 @@ class TasksForm extends React.Component {
 
 		this.state = {
 			tasks: [],
-			inputValue: ""
+			inputValue: "",
+			creationDate: ""
 		}
 		
 		this.addTask = this.addTask.bind(this);
 		this.addTaskOnEnter = this.addTaskOnEnter.bind(this);
 		this.changeInputValue = this.changeInputValue.bind(this);
 		this.dispalyTasks = this.dispalyTasks.bind(this);
+		this.getFormattedDate = this.getFormattedDate.bind(this);
 	}
 
 	addTask() {
@@ -24,6 +26,7 @@ class TasksForm extends React.Component {
 			});
 		}
 		this.setState({inputValue: ""});
+		this.getFormattedDate();
 	}	
 
 	addTaskOnEnter(ev){
@@ -31,7 +34,26 @@ class TasksForm extends React.Component {
      this.addTask();
     }
 	}
-	
+
+	getFormattedDate() {
+		let taskCreatedDate = new Date();
+
+		let day = taskCreatedDate.getDate();
+		let month = taskCreatedDate.getMonth()+1;
+		let year = taskCreatedDate.getFullYear();
+		
+		let hour = taskCreatedDate.getHours();
+			if (hour < 10) {hour = "0" + hour};
+		let minute = taskCreatedDate.getMinutes();
+			if (minute < 10) {minute = "0" + minute};
+		
+		const creationDate = `dodano: ${day}-${month}-${year}, ${hour}:${minute}`
+
+		this.setState({
+			creationDate: creationDate,
+		});
+  }
+
 	changeInputValue(ev) {
 		this.setState({inputValue: ev.target.value});
 	}
@@ -42,7 +64,11 @@ class TasksForm extends React.Component {
 				<div className="card">
 					<ul className="list-group list-group-flush">
 						{this.state.tasks.map( (task, index) => {
-									return <li className="list-group-item" key={index}> <Task name={task}/> </li>
+									return (
+										<li className="list-group-item" key={index}> 
+											<Task name={task} creationDate={this.state.creationDate}/> 
+										</li>
+									)
 								})
 						}
 					</ul>
