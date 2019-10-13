@@ -10,6 +10,7 @@ class TasksForm extends React.Component {
 		this.state = {
 			tasks: [],
 			inputValue: "",
+			isValid: true
 		}
 		
 		this.addTask = this.addTask.bind(this);
@@ -17,15 +18,18 @@ class TasksForm extends React.Component {
 		this.changeInputValue = this.changeInputValue.bind(this);
 		this.dispalyTasks = this.dispalyTasks.bind(this);
 		this.getFormattedDate = this.getFormattedDate.bind(this);
+		this.isInputValid= this.isInputValid.bind(this);
 	}
 
 	addTask() {
-		if (this.state.inputValue) {
-			this.setState({
-				tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate()}],
-			});
+		if (this.state.isValid) {
+			if (this.state.inputValue) {
+				this.setState({
+					tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate()}],
+				});
+			}
+			this.setState({inputValue: ""});
 		}
-		this.setState({inputValue: ""});
 	}	
 
 	addTaskOnEnter(ev){
@@ -38,13 +42,13 @@ class TasksForm extends React.Component {
 		let taskCreatedDate = new Date();
 
 		let day = taskCreatedDate.getDate();
-		let month = taskCreatedDate.getMonth()+1;
+		let month = taskCreatedDate.getMonth() + 1;
 		let year = taskCreatedDate.getFullYear();
 		
 		let hour = taskCreatedDate.getHours();
-			if (hour < 10) {hour = "0" + hour};
+			if (hour < 10) { hour = "0" + hour };
 		let minute = taskCreatedDate.getMinutes();
-			if (minute < 10) {minute = "0" + minute};
+			if (minute < 10) { minute = "0" + minute };
 		
 		const creationDate = `dodano: ${day}-${month}-${year}, ${hour}:${minute}`
 		
@@ -74,18 +78,28 @@ class TasksForm extends React.Component {
 		}
 	}
 
+	isInputValid() {
+		if (this.state.inputValue.length > 100) {
+			this.setState({isValid: false})
+		} else {
+			this.setState({isValid: true})
+		}
+	}
+
 	render() {
+		let additionalClassName = this.state.isValid ? "" : " invalid"
+
 		return (
 			<>
 				<div className="input-group mb-3">
 					<input 
 						type="text" 
-						className="form-control" 
-						maxLength="100" 
+						className={"form-control" + additionalClassName}
 						placeholder={lang.inputTask} 
 						value={this.state.inputValue} 
 						onChange={this.changeInputValue}
-						onKeyUp={this.addTaskOnEnter}
+						onKeyUp={this.isInputValid}
+						onKeyDown={this.addTaskOnEnter}
 					/>
 					<div className="input-group-append">
 						<button className="btn btn btn-primary" type="button" onClick={this.addTask}>+</button>

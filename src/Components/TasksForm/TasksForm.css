@@ -1,0 +1,4 @@
+input.form-control.invalid {
+  border-color: #b30000;
+  box-shadow: 0 0 0 0.2rem #ff4d4d;
+}

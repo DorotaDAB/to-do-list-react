@@ -19,10 +19,10 @@ class Task extends React.Component {
 	}
 
 	render() {
-		let additionalClassName = this.state.isDone ? "task-done" : ""
+		let additionalClassName = this.state.isDone ? " task-done" : ""
 		
 		return (
-			<div className={"form-check " + additionalClassName}>
+			<div className={"form-check" + additionalClassName}>
 				<p>{this.state.creationDate}</p>
 				<input 
 					className="form-check-input" 
