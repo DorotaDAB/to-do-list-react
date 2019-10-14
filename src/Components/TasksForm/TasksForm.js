@@ -2,6 +2,7 @@ import React from 'react';
 import './TasksForm.css';
 import Task from '../Task/Task';
 import lang from '../../assets/lang/lang.json';
+import { Card , InputGroup , ListGroup , ListGroupItem , Button , FormControl } from 'react-bootstrap';
 
 class TasksForm extends React.Component {
 	constructor(props) {
@@ -62,18 +63,18 @@ class TasksForm extends React.Component {
 	dispalyTasks() {
 		if (this.state.tasks.length > 0) {
 			return(	
-				<div className="card">
-					<ul className="list-group list-group-flush">
+				<Card>
+					<ListGroup>
 						{this.state.tasks.map( (task, index) => {
 									return (
-										<li className="list-group-item" key={index}> 
+										<ListGroupItem key={index}>
 											<Task name={task.name} creationDate={task.creationDate}/> 
-										</li>
+										</ListGroupItem>
 									)
 								})
 						}
-					</ul>
-				</div>
+					</ListGroup>
+				</Card>
 			) 
 		}
 	}
@@ -87,24 +88,29 @@ class TasksForm extends React.Component {
 	}
 
 	render() {
-		let additionalClassName = this.state.isValid ? "" : " invalid"
+		const inputClassName = [];
+		if (this.state.isValid) {
+			inputClassName.push("");
+		} else {
+			inputClassName.push("invalid");
+		}
 
 		return (
-			<>
-				<div className="input-group mb-3">
-					<input 
+			<>	
+				<InputGroup>
+					<FormControl
 						type="text" 
-						className={"form-control" + additionalClassName}
+						className={inputClassName.join('')}
 						placeholder={lang.inputTask} 
 						value={this.state.inputValue} 
 						onChange={this.changeInputValue}
 						onKeyUp={this.isInputValid}
 						onKeyDown={this.addTaskOnEnter}
 					/>
-					<div className="input-group-append">
-						<button className="btn btn btn-primary" type="button" onClick={this.addTask}>+</button>
-					</div>
-				</div>
+					<InputGroup.Append>
+						<Button variant="primary" onClick={this.addTask}>+</Button>
+					</InputGroup.Append>
+				</InputGroup>
 				{this.dispalyTasks()}
 			</>
 		)

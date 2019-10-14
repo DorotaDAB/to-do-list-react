@@ -1,5 +1,6 @@
 import React from 'react';
 import './Task.css';
+import { FormCheck , FormLabel } from 'react-bootstrap';
 
 class Task extends React.Component {
 	constructor(props){
@@ -19,21 +20,26 @@ class Task extends React.Component {
 	}
 
 	render() {
-		let additionalClassName = this.state.isDone ? " task-done" : ""
+		const formCheckClassName = [""];
+		if (this.state.isDone) {
+			formCheckClassName.push('task-done');
+		} else {
+			formCheckClassName.push('');
+		}
 		
 		return (
-			<div className={"form-check" + additionalClassName}>
-				<p>{this.state.creationDate}</p>
+			<FormCheck className={formCheckClassName.join('')}>
+				<p>{this.state.creationDate}</p>	
 				<input 
 					className="form-check-input" 
 					type="checkbox" 
 					defaultChecked={this.state.isDone}
 					onClick={this.toggleDoneStatus} 
 				/>
-				<label className="form-check-label" >
+				<FormLabel>
 					{this.state.name}
-				</label>
-			</div>
+				</FormLabel>
+			</FormCheck>
 		)
 	}
 };
