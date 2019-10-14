@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import HomePage from './Components/HomePage/HomePage';
+import TasksForm from './Components/TasksForm/TasksForm';
 
 function App() {
   return (
     <div className="container">
-      <HomePage />
+      <TasksForm />
     </div>
   );
 }

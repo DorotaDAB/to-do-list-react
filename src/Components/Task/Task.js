@@ -20,15 +20,13 @@ class Task extends React.Component {
 	}
 
 	render() {
-		const formCheckClassName = [""];
+		const formCheckClassNames = [];
 		if (this.state.isDone) {
-			formCheckClassName.push('task-done');
-		} else {
-			formCheckClassName.push('');
-		}
+			formCheckClassNames.push('task-done');
+		} 
 		
 		return (
-			<FormCheck className={formCheckClassName.join('')}>
+			<FormCheck className={formCheckClassNames}>
 				<p>{this.state.creationDate}</p>	
 				<input 
 					className="form-check-input" 
