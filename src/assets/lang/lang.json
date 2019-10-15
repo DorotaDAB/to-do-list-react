@@ -1,5 +1,6 @@
 {
   "todoList": "Todo List",
   "inputTask": "Wprowadź zadanie",
-  "taskAdded": "dodano"
+  "taskAdded": "dodano",
+  "delete": "Usuń"
 }

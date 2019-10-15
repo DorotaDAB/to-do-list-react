@@ -7,6 +7,7 @@ This is a web application project allowing to store information on planned actio
 ## Features implemented so far ##
 * Add task with creation time
 * Mark task as done
+* Delete task
 
 Online demo: https://dorotadab.github.io/to-do-list-react
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import './Task.css';
-import { FormCheck , FormLabel } from 'react-bootstrap';
+import lang from '../../assets/lang/lang.json';
+import { FormCheck , FormLabel, Button } from 'react-bootstrap';
 
 class Task extends React.Component {
 	constructor(props){
@@ -9,7 +10,7 @@ class Task extends React.Component {
 		this.state = {
 			name: this.props.name,
 			creationDate: this.props.creationDate,
-			isDone: false 
+			isDone: false
 		}
 		
 		this.toggleDoneStatus = this.toggleDoneStatus.bind(this);
@@ -37,6 +38,7 @@ class Task extends React.Component {
 				<FormLabel>
 					{this.state.name}
 				</FormLabel>
+				<Button variant="danger" onClick={this.props.taskDeleted} disabled={this.state.isDone}> {lang.delete} </Button>
 			</FormCheck>
 		)
 	}

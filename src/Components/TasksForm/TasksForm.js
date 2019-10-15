@@ -11,25 +11,29 @@ class TasksForm extends React.Component {
 		this.state = {
 			tasks: [],
 			inputValue: "",
-			isInputValueValid: true
+			isInputValueValid: true,
+			nextId: 1
 		}
 		
 		this.addTask = this.addTask.bind(this);
 		this.addTaskOnEnter = this.addTaskOnEnter.bind(this);
 		this.changeInputValue = this.changeInputValue.bind(this);
-		this.dispalyTasks = this.dispalyTasks.bind(this);
+		this.displayTasks = this.displayTasks.bind(this);
 		this.getFormattedDate = this.getFormattedDate.bind(this);
-		this.isInputValid= this.isInputValid.bind(this);
+		this.isInputValid = this.isInputValid.bind(this);
+		this.deleteTask = this.deleteTask.bind(this); //
 	}
 
 	addTask() {
 		if (this.state.isInputValueValid) {
 			if (this.state.inputValue) {
 				this.setState({
-					tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate()}],
+					tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate(), id: this.state.nextId}],
 				});
 			}
+			let currentNextId = this.state.nextId;
 			this.setState({inputValue: ""});
+			this.setState({nextId: ++currentNextId});
 		}
 	}	
 
@@ -37,6 +41,11 @@ class TasksForm extends React.Component {
 		if (ev.key === 'Enter') {
      this.addTask();
     }
+	}
+
+	deleteTask(id) {
+		let filteredTasks = this.state.tasks.filter( (task) => {return task.id !== id});
+		this.setState({tasks: filteredTasks});
 	}
 
 	getFormattedDate() {
@@ -60,15 +69,15 @@ class TasksForm extends React.Component {
 		this.setState({inputValue: ev.target.value});
 	}
 	
-	dispalyTasks() {
+	displayTasks() {
 		if (this.state.tasks.length > 0) {
 			return (
 				<Card>
 					<ListGroup>
-						{this.state.tasks.map( (task, index) => {
+						{this.state.tasks.map( (task) => {
 									return (
-										<ListGroupItem key={index}>
-											<Task name={task.name} creationDate={task.creationDate}/> 
+										<ListGroupItem key={task.id}>
+											<Task name={task.name} creationDate={task.creationDate} taskDeleted={this.deleteTask.bind(this, task.id)}/> 
 										</ListGroupItem>
 									)
 								})
@@ -111,7 +120,7 @@ class TasksForm extends React.Component {
 							<Button variant="primary" onClick={this.addTask}>+</Button>
 						</InputGroup.Append>
 					</InputGroup>
-					{this.dispalyTasks()}
+					{this.displayTasks()}
 				</Card.Body>
 			</Card>
 		)
