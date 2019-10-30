@@ -2,5 +2,8 @@
   "todoList": "Todo List",
   "inputTask": "Wprowadź zadanie",
   "taskAdded": "dodano",
-  "delete": "Usuń"
+  "delete": "Usuń",
+  "all": "Wszystkie",
+  "done": "Zrobione",
+  "notDone": "Do zrobienia"
 }

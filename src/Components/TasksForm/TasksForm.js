@@ -2,7 +2,7 @@ import React from 'react';
 import './TasksForm.css';
 import Task from '../Task/Task';
 import lang from '../../assets/lang/lang.json';
-import { Card , InputGroup , ListGroup , ListGroupItem , Button , FormControl , ProgressBar } from 'react-bootstrap';
+import { Card , InputGroup , ListGroup , ListGroupItem , Button , FormControl , ProgressBar , Tab , Tabs } from 'react-bootstrap';
 
 class TasksForm extends React.Component {
 	constructor(props) {
@@ -68,7 +68,7 @@ class TasksForm extends React.Component {
 	}
 
 	displayProgressBar() {
-    if (this.state.tasks.length * 100) {
+    if (this.state.tasks.length > 0) {
 			let countDone = this.state.tasks.filter( (task) => {return task.taskDone});
 			let now =  countDone.length / this.state.tasks.length * 100;
 	
@@ -97,27 +97,73 @@ class TasksForm extends React.Component {
 	changeInputValue(ev) {
 		this.setState({inputValue: ev.target.value});
 	}
-	
+
 	displayTasks() {
 		if (this.state.tasks.length > 0) {
 			return (
 				<Card>
-					<ListGroup>
-						{this.state.tasks.map( (task) => {
-									return (
-										<ListGroupItem key={task.id}>
-											<Task 
-												name={task.name} 
-												creationDate={task.creationDate} 
-												taskDeleted={this.deleteTask.bind(this, task.id)} 
-												taskDone={this.markTaskAsDone.bind(this, task.id)}
-												isDone={task.taskDone}
-												/> 
-										</ListGroupItem>
-									)
-								})
-						}
-					</ListGroup>
+					<Card.Body>
+						<Tabs defaultActiveKey="all" id="uncontrolled-tab-example">
+							<Tab eventKey="all" title={lang.done}>
+								<ListGroup>
+									{this.state.tasks.map( (task) => {
+											return (
+												<ListGroupItem key={task.id}>
+													<Task 
+														name={task.name} 
+														creationDate={task.creationDate} 
+														taskDeleted={this.deleteTask.bind(this, task.id)} 
+														taskDone={this.markTaskAsDone.bind(this, task.id)}
+														isDone={task.taskDone}
+														/> 
+												</ListGroupItem>
+											)
+										})
+									}
+								</ListGroup>
+							</Tab>
+							<Tab eventKey="done" title={lang.done}>
+								<ListGroup>
+									{this.state.tasks
+										.filter( (task) => {return task.taskDone})
+										.map( (task) => {
+											return (
+												<ListGroupItem key={task.id}>
+													<Task 
+														name={task.name} 
+														creationDate={task.creationDate} 
+														taskDeleted={this.deleteTask.bind(this, task.id)} 
+														taskDone={this.markTaskAsDone.bind(this, task.id)}
+														isDone={task.taskDone}
+														/> 
+												</ListGroupItem>
+											)
+										})
+									}
+								</ListGroup>
+							</Tab>
+							<Tab eventKey="notDone" title={lang.notDone}>
+								<ListGroup>
+									{this.state.tasks
+											.filter( (task) => {return !task.taskDone})
+											.map( (task) => {
+												return (
+													<ListGroupItem key={task.id}>
+														<Task 
+															name={task.name} 
+															creationDate={task.creationDate} 
+															taskDeleted={this.deleteTask.bind(this, task.id)} 
+															taskDone={this.markTaskAsDone.bind(this, task.id)}
+															isDone={task.taskDone}
+															/> 
+													</ListGroupItem>
+												)
+											})
+										}
+								</ListGroup>
+							</Tab>
+						</Tabs>
+					</Card.Body>
 				</Card>
 			) 
 		}
