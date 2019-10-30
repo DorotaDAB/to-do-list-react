@@ -10,7 +10,7 @@ class Task extends React.Component {
 		this.state = {
 			name: this.props.name,
 			creationDate: this.props.creationDate,
-			isDone: false
+			isDone: this.props.isDone
 		}
 		
 		this.toggleDoneStatus = this.toggleDoneStatus.bind(this);
@@ -33,7 +33,8 @@ class Task extends React.Component {
 					className="form-check-input" 
 					type="checkbox" 
 					defaultChecked={this.state.isDone}
-					onClick={this.toggleDoneStatus} 
+					onClick={this.toggleDoneStatus}
+					onChange={this.props.taskDone}
 				/>
 				<FormLabel>
 					{this.state.name}

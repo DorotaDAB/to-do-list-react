@@ -2,7 +2,7 @@ import React from 'react';
 import './TasksForm.css';
 import Task from '../Task/Task';
 import lang from '../../assets/lang/lang.json';
-import { Card , InputGroup , ListGroup , ListGroupItem , Button , FormControl } from 'react-bootstrap';
+import { Card , InputGroup , ListGroup , ListGroupItem , Button , FormControl , ProgressBar } from 'react-bootstrap';
 
 class TasksForm extends React.Component {
 	constructor(props) {
@@ -21,14 +21,23 @@ class TasksForm extends React.Component {
 		this.displayTasks = this.displayTasks.bind(this);
 		this.getFormattedDate = this.getFormattedDate.bind(this);
 		this.isInputValid = this.isInputValid.bind(this);
-		this.deleteTask = this.deleteTask.bind(this); //
+		this.deleteTask = this.deleteTask.bind(this);
+		this.markTaskAsDone = this.markTaskAsDone.bind(this);
+		this.displayProgressBar = this.displayProgressBar.bind(this);
 	}
 
 	addTask() {
 		if (this.state.isInputValueValid) {
 			if (this.state.inputValue) {
 				this.setState({
-					tasks: [ ...this.state.tasks, {name: this.state.inputValue, creationDate: this.getFormattedDate(), id: this.state.nextId}],
+					tasks: [ ...this.state.tasks, 
+						{
+							name: this.state.inputValue, 
+							creationDate: this.getFormattedDate(), 
+							id: this.state.nextId,
+							taskDone: false
+						},
+				 ],
 				});
 			}
 			let currentNextId = this.state.nextId;
@@ -48,6 +57,26 @@ class TasksForm extends React.Component {
 		this.setState({tasks: filteredTasks});
 	}
 
+	markTaskAsDone(id) {
+		let component = this;
+		let taskIndex = component.state.tasks.findIndex((task) => { return task.id === Number(id)});
+		let currentTasks = component.state.tasks;
+		let changedTask = currentTasks[taskIndex];
+		changedTask.taskDone = !changedTask.taskDone;
+
+		component.setState({tasks: currentTasks});
+	}
+
+	displayProgressBar() {
+    if (this.state.tasks.length * 100) {
+			let countDone = this.state.tasks.filter( (task) => {return task.taskDone});
+			let now =  countDone.length / this.state.tasks.length * 100;
+	
+			return ( <ProgressBar striped variant="success" now={now} label={`${now.toFixed(0)}%`}/>)
+		}
+		return ( <ProgressBar striped variant="success" now={0} label={`${0}%`}/>)
+	}
+
 	getFormattedDate() {
 		const taskCreatedDate = new Date();
 
@@ -63,7 +92,7 @@ class TasksForm extends React.Component {
 		const creationDate = `${lang.taskAdded}: ${day}-${month}-${year}, ${hour}:${minute}`
 		
 		return creationDate;
-  }
+	}
 
 	changeInputValue(ev) {
 		this.setState({inputValue: ev.target.value});
@@ -77,7 +106,13 @@ class TasksForm extends React.Component {
 						{this.state.tasks.map( (task) => {
 									return (
 										<ListGroupItem key={task.id}>
-											<Task name={task.name} creationDate={task.creationDate} taskDeleted={this.deleteTask.bind(this, task.id)}/> 
+											<Task 
+												name={task.name} 
+												creationDate={task.creationDate} 
+												taskDeleted={this.deleteTask.bind(this, task.id)} 
+												taskDone={this.markTaskAsDone.bind(this, task.id)}
+												isDone={task.taskDone}
+												/> 
 										</ListGroupItem>
 									)
 								})
@@ -120,6 +155,7 @@ class TasksForm extends React.Component {
 							<Button variant="primary" onClick={this.addTask}>+</Button>
 						</InputGroup.Append>
 					</InputGroup>
+					{this.displayProgressBar()}
 					{this.displayTasks()}
 				</Card.Body>
 			</Card>
