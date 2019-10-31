@@ -104,9 +104,10 @@ class TasksForm extends React.Component {
 				<Card>
 					<Card.Body>
 						<Tabs defaultActiveKey="all" id="uncontrolled-tab-example">
-							<Tab eventKey="all" title={lang.done}>
+							<Tab eventKey="all" title={lang.all}>
 								<ListGroup>
-									{this.state.tasks.map( (task) => {
+									{this.state.tasks
+										.map( (task) => {
 											return (
 												<ListGroupItem key={task.id}>
 													<Task 
